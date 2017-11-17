@@ -9,7 +9,7 @@ if size(name,2)==3
     plot(name.f,name.S11_P);
     title('Phase (deg)');
     legend('S11');
-
+    grid
 end
 
 if size(name,2)==9
@@ -22,6 +22,7 @@ if size(name,2)==9
     hold off;
     title('Magnitude (dB)');
     legend('S11', 'S12', 'S21', 'S22');
+    grid
     subplot(2,1,2);
     hold on
     plot(name.f,unwrap(name.S11_P));
@@ -32,6 +33,7 @@ if size(name,2)==9
     hold off;
     title('Phase (deg)');
     legend('S11', 'S12', 'S21', 'S22');
+    grid
 end
 suptitle(text)
 clearvars name;
