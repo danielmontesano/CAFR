@@ -1,4 +1,4 @@
-function [  ] = dibujar2( name )
+function [  ] = dibujar( name,text )
 figure;
 if size(name,2)==3
     subplot(2,1,1);
@@ -33,6 +33,7 @@ if size(name,2)==9
     title('Phase (deg)');
     legend('S11', 'S12', 'S21', 'S22');
 end
+suptitle(text)
 clearvars name;
 
 end
