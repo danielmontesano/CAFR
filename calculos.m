@@ -5,14 +5,13 @@ clc
 % clear
 close all
 %%
-% load('matlab.mat')
-% dibujar(filter,'Filter')
+load('matlab.mat')
+dibujar(filter,'Filter')
 % dibujar(through,'Through')
 % dibujar(line1,'Line 1')
 % dibujar(line2,'Line 2')
 % dibujar(reflect1,'Reflect 1')
 % dibujar(reflect2,'Reflect 2')
-
 
 %%
 vec_f = through.f;
@@ -49,7 +48,7 @@ vec_f = through.f;
         beta_alpha = (e-b)/(d-(b*f));  %Beta/a
         
         a_Alpha = ((S11_Re1(n)-b)*(1+(S11_Re2(n)*beta_alpha)))/...
-                  ((S11_Re2(n)+gamma)*(1-(S11_Re2(n)*c_a)));
+                  ((S11_Re2(n)+gamma)*(1-(S11_Re1(n)*c_a)));
 
         a = sqrt(alphaPorA*a_Alpha);
          
@@ -81,13 +80,13 @@ vec_f = through.f;
         coefBeta(n) = beta;
         coefGamma(n) = gamma;
 
-        S11_M(n) = 10*log10(abs(S11));
+        S11_M(n) = 20*log10(abs(S11));
         S11_P(n) = radtodeg(angle(S11));
-        S12_M(n) = 10*log10(abs(S12));
+        S12_M(n) = 20*log10(abs(S12));
         S12_P(n) = radtodeg(angle(S12));
-        S21_M(n) = 10*log10(abs(S21));
+        S21_M(n) = 20*log10(abs(S21));
         S21_P(n) = radtodeg(angle(S21));
-        S22_M(n) = 10*log10(abs(S22));
+        S22_M(n) = 20*log10(abs(S22));
         S22_P(n) = radtodeg(angle(S22));
             
     end
@@ -97,13 +96,3 @@ vec_f = through.f;
         
 dibujar(DUT,'DUT')
         
-
-    subplot(2,1,1);
-    plot(vec_f,abs(x);
-    title('Magnitude (dB)');
-    legend('S11');
-    subplot(2,1,2);
-    plot(name.f,name.S11_P);
-    title('Phase (deg)');
-    legend('S11');
-    grid
