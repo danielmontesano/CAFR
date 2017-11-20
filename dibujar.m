@@ -35,7 +35,7 @@ if size(name,2)==9
     legend('S11', 'S12', 'S21', 'S22');
     grid
 end
-suptitle(text)
+% suptitle(text)
 clearvars name;
 
 end
