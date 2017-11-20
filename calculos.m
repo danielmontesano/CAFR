@@ -15,7 +15,7 @@ dibujar(filter,'Filter')
 
 %%
 vec_f = through.f;
-[ S_Me, R_Me ] = StoR(filter);
+[ S_Me, R_Me ] = StoR(line2);
 [ S_T, R_T ] = StoR(through);
 [ S_L, R_L ] = StoR(line1);
 % [ S_L2, R_L ] = StoR(line2);
@@ -37,10 +37,14 @@ vec_f = through.f;
             c_a = raizT(2);
         end
         
-        g = 1/S_T(2,1,n);
-        d = -det(S_T(:,:,n));
-        e = S_T(1,1,n);
-        f = -S_T(2,2,n);
+%         g = 1/S_T(2,1,n);
+%         d = -det(S_T(:,:,n));
+%         e = S_T(1,1,n);
+%         f = -S_T(2,2,n);
+        g = R_T(2,2,n);
+        d = R_T(1,1,n)/R_T(2,2,n);
+        e =  R_T(1,2,n)/R_T(2,2,n);
+        f =  R_T(2,1,n)/R_T(2,2,n);
         
         r22p22 = g*((1-(e*c_a))/(1-(b*c_a)));
         gamma = (f-(d*c_a))/(1-(e*c_a));
@@ -49,14 +53,16 @@ vec_f = through.f;
         
         a_Alpha = ((S11_Re1(n)-b)*(1+(S11_Re2(n)*beta_alpha)))/...
                   ((S11_Re2(n)+gamma)*(1-(S11_Re1(n)*c_a)));
-
         a = sqrt(alphaPorA*a_Alpha);
          
         gamma_R = (S11_Re1(n)-b)/(a*(1-(S11_Re1(n)*c_a)));
         
-        if( rad2deg(abs(angle(S11_Re1(n))))>90)
+%         if( rad2deg(abs(angle(S11_Re1(n))))>90)
+        if( rad2deg(abs(angle(gamma_R)))<90 && rad2deg(abs(angle(gamma_R)))>270)
+
           a = -a; 
         end
+        
 
         c = a*c_a;
         alpha = alphaPorA/a;
