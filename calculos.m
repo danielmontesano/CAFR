@@ -6,10 +6,10 @@ clc
 close all
 %%
 load('matlab.mat')
-dibujar(filter,'Filter')
+% dibujar(filter,'Filter')
 % dibujar(through,'Through')
 % dibujar(line1,'Line 1')
-% dibujar(line2,'Line 2')
+dibujar(line2,'Line 2')
 % dibujar(reflect1,'Reflect 1')
 % dibujar(reflect2,'Reflect 2')
 
@@ -70,7 +70,8 @@ vec_f = through.f;
 
         IRa = [1 -b; -c a];
         IRb = [1 -beta; -gamma alpha];
-
+        
+        % R Dut
         Rm  = (1/(r22p22*(a-(b*c))*(alpha-(gamma*beta))))*IRa*R_Me(:,:,n)*IRb;    
 
         S11 =  Rm(1,2)/Rm(2,2);
@@ -94,11 +95,13 @@ vec_f = through.f;
         S21_P(n) = radtodeg(angle(S21));
         S22_M(n) = 20*log10(abs(S22));
         S22_P(n) = radtodeg(angle(S22));
-            
+        
+        gammaM=log(S21)/(-0.02);
+        tauL(n)=imag(gammaM)*(0.02)/(2*pi*vec_f(n));
     end
     
     DUT = table(vec_f,S11_M',S11_P',S12_M',S12_P',S21_M',S21_P',S22_M',S22_P');
     DUT.Properties.VariableNames = {'f','S11','S11_P','S12','S12_P','S21','S21_P','S22','S22_P'};
         
 dibujar(DUT,'DUT')
-        
+figure, plot(vec_f,tauL);
