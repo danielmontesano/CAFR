@@ -6,10 +6,10 @@ clc
 close all
 %%
 load('matlab.mat')
-% dibujar(filter,'Filter')
+%dibujar(filter,'Filter')
 % dibujar(through,'Through')
-% dibujar(line1,'Line 1')
-dibujar(line2,'Line 2')
+ dibujar(line1,'Line 1')
+% dibujar(line2,'Line 2')
 % dibujar(reflect1,'Reflect 1')
 % dibujar(reflect2,'Reflect 2')
 
@@ -33,8 +33,8 @@ vec_f = through.f;
             c_a = 1/raizT(1); %c/a
             b   = raizT(2);
         else
-            b   = 1/raizT(1);
-            c_a = raizT(2);
+            c_a   = 1/raizT(1);
+            b = raizT(2);
         end
         
 %         g = 1/S_T(2,1,n);
