@@ -98,6 +98,7 @@ vec_f = through.f;
         
         gammaM=log(S21)/(-0.02);
         tauL(n)=imag(gammaM)*(0.02)/(2*pi*vec_f(n));
+        betaL(n)= imag(gammaM)*0.02;
     end
     
     DUT = table(vec_f,S11_M',S11_P',S12_M',S12_P',S21_M',S21_P',S22_M',S22_P');
@@ -106,3 +107,7 @@ vec_f = through.f;
  dibujar(DUT,'DUT')
 
 figure,plot(vec_f,tauL);
+
+
+
+figure, plot(vec_f, rad2deg(unwrap(abs(betaL))));
