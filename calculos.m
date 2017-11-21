@@ -6,16 +6,16 @@ clc
 close all
 %%
 load('matlab.mat')
-dibujar(filter,'Filter')
+% dibujar(filter,'Filter')
 % dibujar(through,'Through')
 %  dibujar(line1,'Line 1')
-% dibujar(line2,'Line 2')
+dibujar(line2,'Line 2')
 % dibujar(reflect1,'Reflect 1')
 % dibujar(reflect2,'Reflect 2')
 
 %%
 vec_f = through.f;
-[ S_Me, R_Me ] = StoR(filter);
+[ S_Me, R_Me ] = StoR(line2);
 [ S_T, R_T ] = StoR(through);
 [ S_L, R_L ] = StoR(line1);
 % [ S_L2, R_L ] = StoR(line2);
@@ -29,7 +29,7 @@ vec_f = through.f;
         p = [T(2,1) T(2,2)-T(1,1) -T(1,2)];
         raizT = roots(p);
         
-        if(abs(raizT(1)>abs(raizT(2))))
+        if(abs(raizT(1))>abs(raizT(2)))
             c_a = 1/raizT(1); %c/a
             b   = raizT(2);
         else
@@ -58,7 +58,7 @@ vec_f = through.f;
         gamma_R = (S11_Re1(n)-b)/(a*(1-(S11_Re1(n)*c_a)));
         
 %         if( rad2deg(abs(angle(S11_Re1(n))))>90)
-        if( rad2deg(abs(angle(gamma_R)))>90 && rad2deg(abs(angle(gamma_R)))<270)
+        if( rad2deg((angle(gamma_R)))>90 && rad2deg((angle(gamma_R)))<270)
 
           a = -a; 
         end
