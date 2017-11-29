@@ -16,7 +16,7 @@ load('matlab.mat')
 %%
 vec_f = through.f;
 line = line1;
-[ S_Me, R_Me ] = StoR(filter);
+[ S_Me, R_Me ] = StoR(line1);
 [ S_T, R_T ] = StoR(through);
 [ S_L, R_L ] = StoR(line);
 % [ S_L2, R_L ] = StoR(line2);
@@ -107,25 +107,38 @@ line = line1;
             l = 0.02417;
         end
         gammaM(n)=log(S21)/-l;
-        tauL(n)=imag(gammaM(n))*l/(2*pi*vec_f(n));
-        betaL(n)= imag(gammaM(n))*l;
+        betaL(n)= unwrap(imag(gammaM(n))*l);
+        tauL(n)=betaL(n)/(2*pi*vec_f(n));
+        
     end
     
     DUT = table(vec_f,S11_M',S11_P',S12_M',S12_P',S21_M',S21_P',S22_M',S22_P');
     DUT.Properties.VariableNames = {'f','S11','S11_P','S12','S12_P','S21','S21_P','S22','S22_P'};
     
  dibujar(DUT,'DUT')
-    
+%%    
 lim1=160*ones(1, length(vec_f));
 lim2=20*ones(1, length(vec_f));
-figure, plot(vec_f/1e9, rad2deg(unwrap(abs(betaL))));
+figure, plot(vec_f/1e9, rad2deg((abs(betaL))));
 xlabel('Frecuency (GHz)')
 title('\betaL (grados)')
 hold on
 plot(vec_f/1e9, lim1);
 plot(vec_f/1e9, lim2);
 hold off
+%%
+figure
 
+plot(vec_f/1e9,tauL/1e-12);
+xlabel('Frecuency (GHz)')
+title('\alpha')
+        if(isequal(line,line1))
+           retardo = mean(tauL/1e-12)
+        else 
+           retardo = mean(tauL(1:375)/1e-12)
+        end
+
+%%
 figure
 
 subplot(2,1,1),plot(vec_f/1e9,real(gammaM));
@@ -135,7 +148,7 @@ subplot(2,1,2)
 plot(vec_f/1e9,imag(gammaM));  
 xlabel('Frecuency (GHz)')
 title('\beta')
-
+%%
 figure, plot(vec_f/1e9,radtodeg(angle(coefgamma_R)))
 hold on
 plot(vec_f/1e9,radtodeg(angle(coefgamma_RCa)),'LineWidth',2)
