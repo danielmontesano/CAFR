@@ -31,7 +31,7 @@ S_Zo3=[s22_P23_Zo(n) s23_P23_Zo(n),
 
 diagon = diag((Zx-Zo)/(Zx+Zo))*eye(2);
 I=eye(2);
-%Paso a Zl
+%Paso a Zx
 S_Zx1(:,:,n)= inv((I-S_Zo1))*(S_Zo1-diagon)*inv((I-S_Zo1*diagon))*(I-S_Zo1);
 S_Zx2(:,:,n)= inv((I-S_Zo2))*(S_Zo2-diagon)*inv((I-S_Zo2*diagon))*(I-S_Zo2);
 S_Zx3(:,:,n)= inv((I-S_Zo3))*(S_Zo3-diagon)*inv((I-S_Zo3*diagon))*(I-S_Zo3);
@@ -45,7 +45,6 @@ S_total(:,:,n)= [S_Zx1(1,1,n) S_Zx1(1,2,n) S_Zx2(1,2,n),
 diagonTotal = diag((Zo-Zx)/(Zx+Zo))*eye(3);
 ITotal=eye(3);
 %Paso a Zo
-S_totalZo(:,:,n)=inv((ITotal-S_total(:,:,n)))*(S_total(:,:,n)-diagonTotal)*inv((ITotal-S_total(:,:,n)*diagonTotal))*(ITotal-S_total(:,:,n));
-     
+S_totalZo(:,:,n)=inv((ITotal-S_total))*(S_total-diagonTotal)*inv((ITotal-S_total*diagon))*(ITotal-S_total);
+             
 end
-
