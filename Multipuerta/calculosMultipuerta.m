@@ -71,8 +71,9 @@ ITotal=eye(3);
 %Paso a Zo
 S_totalZo(:,:,n)=inv((ITotal-S_total1(:,:,n)))*(S_total1(:,:,n)-diagonTotal)*inv((ITotal-S_total1(:,:,n)*diagonTotal))*(ITotal-S_total1(:,:,n));
 S_totalZo2(:,:,n)=inv((ITotal-S_total2(:,:,n)))*(S_total2(:,:,n)-diagonTotal)*inv((ITotal-S_total2(:,:,n)*diagonTotal))*(ITotal-S_total2(:,:,n));
-     
+
 end
+
 %%
 
 dibujar(f,s11_P12_Zl,s21_P12_Zl,s12_P12_Zl,s22_P12_Zl,'Port 12 ref to Zl')
@@ -90,8 +91,8 @@ dibujar(f,s22_P23_Zl,s23_P23_Zl,s32_P23_Zl,s33_P23_Zl,'Port 23 ref to Zl')
 
     subplot(2,1,2)
     hold on
-    plot(f,angle(s11_P12_Zl)*180/pi)
-    plot(f,angle(s11_P13_Zl)*180/pi)
+    plot(f,unwrap(angle(s11_P12_Zl)*180/pi))
+    plot(f,unwrap(angle(s11_P13_Zl)*180/pi))
     hold off
     grid,title('Phase (deg)'),legend('Port 12', 'Port 13')
     xlabel('Frecuency (GHz)')
@@ -106,8 +107,8 @@ dibujar(f,s22_P23_Zl,s23_P23_Zl,s32_P23_Zl,s33_P23_Zl,'Port 23 ref to Zl')
 
     subplot(2,1,2)
     hold on
-    plot(f,angle(s22_P12_Zl)*180/pi)
-    plot(f,angle(s22_P23_Zl)*180/pi)
+    plot(f,unwrap(angle(s22_P12_Zl)*180/pi))
+    plot(f,unwrap(angle(s22_P23_Zl)*180/pi))
     hold off
     grid,title('Phase (deg)'),legend('Port 12', 'Port 23')
     xlabel('Frecuency (GHz)') 
@@ -122,119 +123,132 @@ dibujar(f,s22_P23_Zl,s23_P23_Zl,s32_P23_Zl,s33_P23_Zl,'Port 23 ref to Zl')
 
     subplot(2,1,2)
     hold on
-    plot(f,angle(s33_P13_Zl)*180/pi)
-    plot(f,angle(s33_P23_Zl)*180/pi)
+    plot(f,unwrap(angle(s33_P13_Zl)*180/pi))
+    plot(f,unwrap(angle(s33_P23_Zl)*180/pi))
     hold off
     grid,title('Phase (deg)'),legend('Port 13', 'Port 23')
     xlabel('Frecuency (GHz)') 
 
-%% Representacion matriz 3x3 normalizada a Zo
+%% Representacion matriz 3x3 normalizada a Zl y a Zo
+
+S_3x3_Zl = S_total1;  % S_total1 o S_total2 ref
+S_3x3_Zo = S_totalZo;
     
-% Stotal 1
+% Ref to Zl
     figure(12)
+    subplot(211)
     hold on
-    plot(f,20*log10(abs(squeeze(S_totalZo(1,1,:)))),'LineWidth', 2)
-    plot(f,20*log10(abs(squeeze(S_totalZo(1,2,:)))),'LineWidth', 2)
-    plot(f,20*log10(abs(squeeze(S_totalZo(1,3,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zl(1,1,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zl(1,2,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zl(1,3,:)))),'LineWidth', 2)
 
-    plot(f,20*log10(abs(squeeze(S_totalZo(2,1,:)))),'LineWidth', 2)
-    plot(f,20*log10(abs(squeeze(S_totalZo(2,2,:)))),'LineWidth', 2)
-    plot(f,20*log10(abs(squeeze(S_totalZo(2,3,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zl(2,1,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zl(2,2,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zl(2,3,:)))),'LineWidth', 2)
     
-    plot(f,20*log10(abs(squeeze(S_totalZo(3,1,:)))),'LineWidth', 2)
-    plot(f,20*log10(abs(squeeze(S_totalZo(3,2,:)))),'LineWidth', 2)
-    plot(f,20*log10(abs(squeeze(S_totalZo(3,3,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zl(3,1,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zl(3,2,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zl(3,3,:)))),'LineWidth', 2)
     
     hold off
-    grid,title('S TOTAL Magnitude (dB) to Zo')
-    legend ('S11', 'S12', 'S13', 'S21', 'S22', 'S23', 'S31', 'S32', 'S33')
+    grid,title('S TOTAL Magnitude (dB) to Z_{L}')
+    legend('S11', 'S12', 'S13', 'S21', 'S22', 'S23', 'S31', 'S32', 'S33','Location','bestoutside')
+    xlabel('Frecuency (GHz)') 
+%     figure(13)
+%     hold on
+%     plot(f,angle((squeeze(S_3x3_Zl(1,1,:))))*180/pi,'LineWidth', 2)
+%     plot(f,angle((squeeze(S_3x3_Zl(1,2,:))))*180/pi,'LineWidth', 2)
+%     plot(f,angle((squeeze(S_3x3_Zl(1,3,:))))*180/pi,'LineWidth', 2)
+% 
+%     plot(f,angle((squeeze(S_3x3_Zl(2,1,:))))*180/pi,'LineWidth', 2)
+%     plot(f,angle((squeeze(S_3x3_Zl(2,2,:))))*180/pi,'LineWidth', 2)
+%     plot(f,angle((squeeze(S_3x3_Zl(2,3,:))))*180/pi,'LineWidth', 2)
+%     
+%     plot(f,angle((squeeze(S_3x3_Zl(3,1,:))))*180/pi,'LineWidth', 2)
+%     plot(f,angle((squeeze(S_3x3_Zl(3,2,:))))*180/pi,'LineWidth', 2)
+%     plot(f,angle((squeeze(S_3x3_Zl(3,3,:))))*180/pi,'LineWidth', 2)
+%     
+%     hold off
+%     grid,title('S TOTAL ANGLE (dB) to Zo')
+%     legend ('S11', 'S12', 'S13', 'S21', 'S22', 'S23', 'S31', 'S32', 'S33')
 
-    figure(13)
+%     figure(14)
+    subplot(212)
     hold on
-    plot(f,angle((squeeze(S_totalZo(1,1,:))))*180/pi,'LineWidth', 2)
-    plot(f,angle((squeeze(S_totalZo(1,2,:))))*180/pi,'LineWidth', 2)
-    plot(f,angle((squeeze(S_totalZo(1,3,:))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zl(1,1,:)))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zl(1,2,:)))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zl(1,3,:)))))*180/pi,'LineWidth', 2)
 
-    plot(f,angle((squeeze(S_totalZo(2,1,:))))*180/pi,'LineWidth', 2)
-    plot(f,angle((squeeze(S_totalZo(2,2,:))))*180/pi,'LineWidth', 2)
-    plot(f,angle((squeeze(S_totalZo(2,3,:))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zl(2,1,:)))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zl(2,2,:)))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zl(2,3,:)))))*180/pi,'LineWidth', 2)
     
-    plot(f,angle((squeeze(S_totalZo(3,1,:))))*180/pi,'LineWidth', 2)
-    plot(f,angle((squeeze(S_totalZo(3,2,:))))*180/pi,'LineWidth', 2)
-    plot(f,angle((squeeze(S_totalZo(3,3,:))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zl(3,1,:)))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zl(3,2,:)))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zl(3,3,:)))))*180/pi,'LineWidth', 2)
     
     hold off
-    grid,title('S TOTAL ANGLE (dB) to Zo')
-    legend ('S11', 'S12', 'S13', 'S21', 'S22', 'S23', 'S31', 'S32', 'S33')
-
-    figure(14)
-    hold on
-    plot(f,unwrap(angle((squeeze(S_totalZo(1,1,:)))))*180/pi,'LineWidth', 2)
-    plot(f,unwrap(angle((squeeze(S_totalZo(1,2,:)))))*180/pi,'LineWidth', 2)
-    plot(f,unwrap(angle((squeeze(S_totalZo(1,3,:)))))*180/pi,'LineWidth', 2)
-
-    plot(f,unwrap(angle((squeeze(S_totalZo(2,1,:)))))*180/pi,'LineWidth', 2)
-    plot(f,unwrap(angle((squeeze(S_totalZo(2,2,:)))))*180/pi,'LineWidth', 2)
-    plot(f,unwrap(angle((squeeze(S_totalZo(2,3,:)))))*180/pi,'LineWidth', 2)
-    
-    plot(f,unwrap(angle((squeeze(S_totalZo(3,1,:)))))*180/pi,'LineWidth', 2)
-    plot(f,unwrap(angle((squeeze(S_totalZo(3,2,:)))))*180/pi,'LineWidth', 2)
-    plot(f,unwrap(angle((squeeze(S_totalZo(3,3,:)))))*180/pi,'LineWidth', 2)
-    
-    hold off
-    grid,title('S TOTAL ANGLE (dB) to Zo')
-    legend ('S11', 'S12', 'S13', 'S21', 'S22', 'S23', 'S31', 'S32', 'S33')
-%% Stotal 2
+    grid,title('S TOTAL ANGLE (dB) to Z_{L}')
+    legend ('S11', 'S12', 'S13', 'S21', 'S22', 'S23', 'S31', 'S32', 'S33','Location','bestoutside')
+    xlabel('Frecuency (GHz)') 
+%% Ref to Zo
     figure(15)
+    subplot(211)
     hold on
-    plot(f,20*log10(abs(squeeze(S_totalZo2(1,1,:)))),'LineWidth', 2)
-    plot(f,20*log10(abs(squeeze(S_totalZo2(1,2,:)))),'LineWidth', 2)
-    plot(f,20*log10(abs(squeeze(S_totalZo2(1,3,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zo(1,1,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zo(1,2,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zo(1,3,:)))),'LineWidth', 2)
 
-    plot(f,20*log10(abs(squeeze(S_totalZo2(2,1,:)))),'LineWidth', 2)
-    plot(f,20*log10(abs(squeeze(S_totalZo2(2,2,:)))),'LineWidth', 2)
-    plot(f,20*log10(abs(squeeze(S_totalZo2(2,3,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zo(2,1,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zo(2,2,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zo(2,3,:)))),'LineWidth', 2)
     
-    plot(f,20*log10(abs(squeeze(S_totalZo2(3,1,:)))),'LineWidth', 2)
-    plot(f,20*log10(abs(squeeze(S_totalZo2(3,2,:)))),'LineWidth', 2)
-    plot(f,20*log10(abs(squeeze(S_totalZo2(3,3,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zo(3,1,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zo(3,2,:)))),'LineWidth', 2)
+    plot(f,20*log10(abs(squeeze(S_3x3_Zo(3,3,:)))),'LineWidth', 2)
     
     hold off
-    grid,title('S TOTAL Magnitude (dB) to Zo')
-    legend ('S11', 'S12', 'S13', 'S21', 'S22', 'S23', 'S31', 'S32', 'S33')
-
-    figure(16)
-    hold on
-    plot(f,angle((squeeze(S_totalZo2(1,1,:))))*180/pi,'LineWidth', 2)
-    plot(f,angle((squeeze(S_totalZo2(1,2,:))))*180/pi,'LineWidth', 2)
-    plot(f,angle((squeeze(S_totalZo2(1,3,:))))*180/pi,'LineWidth', 2)
-
-    plot(f,angle((squeeze(S_totalZo2(2,1,:))))*180/pi,'LineWidth', 2)
-    plot(f,angle((squeeze(S_totalZo2(2,2,:))))*180/pi,'LineWidth', 2)
-    plot(f,angle((squeeze(S_totalZo2(2,3,:))))*180/pi,'LineWidth', 2)
+    grid,title('S TOTAL Magnitude (dB) to Z_{o}')
+    legend ('S11', 'S12', 'S13', 'S21', 'S22', 'S23', 'S31', 'S32', 'S33','Location','bestoutside')
+    xlabel('Frecuency (GHz)') 
     
-    plot(f,angle((squeeze(S_totalZo2(3,1,:))))*180/pi,'LineWidth', 2)
-    plot(f,angle((squeeze(S_totalZo2(3,2,:))))*180/pi,'LineWidth', 2)
-    plot(f,angle((squeeze(S_totalZo2(3,3,:))))*180/pi,'LineWidth', 2)
+%     figure(16)
+%     hold on
+%     plot(f,angle((squeeze(S_3x3_Zo(1,1,:))))*180/pi,'LineWidth', 2)
+%     plot(f,angle((squeeze(S_3x3_Zo(1,2,:))))*180/pi,'LineWidth', 2)
+%     plot(f,angle((squeeze(S_3x3_Zo(1,3,:))))*180/pi,'LineWidth', 2)
+% 
+%     plot(f,angle((squeeze(S_3x3_Zo(2,1,:))))*180/pi,'LineWidth', 2)
+%     plot(f,angle((squeeze(S_3x3_Zo(2,2,:))))*180/pi,'LineWidth', 2)
+%     plot(f,angle((squeeze(S_3x3_Zo(2,3,:))))*180/pi,'LineWidth', 2)
+%     
+%     plot(f,angle((squeeze(S_3x3_Zo(3,1,:))))*180/pi,'LineWidth', 2)
+%     plot(f,angle((squeeze(S_3x3_Zo(3,2,:))))*180/pi,'LineWidth', 2)
+%     plot(f,angle((squeeze(S_3x3_Zo(3,3,:))))*180/pi,'LineWidth', 2)
+%     
+%     hold off
+%     grid,title('S TOTAL ANGLE (dB) to Zo')
+    legend ('S11', 'S12', 'S13', 'S21', 'S22', 'S23', 'S31', 'S32', 'S33','Location','bestoutside')
+    xlabel('Frecuency (GHz)') 
+%     figure(17)
+    subplot(212)
+    hold on
+
+    plot(f,unwrap(angle((squeeze(S_3x3_Zo(1,1,:)))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zo(1,2,:)))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zo(1,3,:)))))*180/pi,'LineWidth', 2)
+
+    plot(f,unwrap(angle((squeeze(S_3x3_Zo(2,1,:)))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zo(2,2,:)))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zo(2,3,:)))))*180/pi,'LineWidth', 2)
+    
+    plot(f,unwrap(angle((squeeze(S_3x3_Zo(3,1,:)))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zo(3,2,:)))))*180/pi,'LineWidth', 2)
+    plot(f,unwrap(angle((squeeze(S_3x3_Zo(3,3,:)))))*180/pi,'LineWidth', 2)
     
     hold off
-    grid,title('S TOTAL ANGLE (dB) to Zo')
-    legend ('S11', 'S12', 'S13', 'S21', 'S22', 'S23', 'S31', 'S32', 'S33')
-
-    figure(17)
-    hold on
-    plot(f,unwrap(angle((squeeze(S_totalZo2(1,1,:)))))*180/pi,'LineWidth', 2)
-    plot(f,unwrap(angle((squeeze(S_totalZo2(1,2,:)))))*180/pi,'LineWidth', 2)
-    plot(f,unwrap(angle((squeeze(S_totalZo2(1,3,:)))))*180/pi,'LineWidth', 2)
-
-    plot(f,unwrap(angle((squeeze(S_totalZo2(2,1,:)))))*180/pi,'LineWidth', 2)
-    plot(f,unwrap(angle((squeeze(S_totalZo2(2,2,:)))))*180/pi,'LineWidth', 2)
-    plot(f,unwrap(angle((squeeze(S_totalZo2(2,3,:)))))*180/pi,'LineWidth', 2)
+    grid,title('S TOTAL ANGLE (dB) to Z_{o}')
+    legend('S11', 'S12', 'S13', 'S21', 'S22', 'S23', 'S31', 'S32', 'S33','Location','bestoutside')
+    xlabel('Frecuency (GHz)') 
     
-    plot(f,unwrap(angle((squeeze(S_totalZo(3,1,:)))))*180/pi,'LineWidth', 2)
-    plot(f,unwrap(angle((squeeze(S_totalZo(3,2,:)))))*180/pi,'LineWidth', 2)
-    plot(f,unwrap(angle((squeeze(S_totalZo(3,3,:)))))*180/pi,'LineWidth', 2)
     
-    hold off
-    grid,title('S TOTAL ANGLE (dB) to Zo')
-    legend ('S11', 'S12', 'S13', 'S21', 'S22', 'S23', 'S31', 'S32', 'S33')
